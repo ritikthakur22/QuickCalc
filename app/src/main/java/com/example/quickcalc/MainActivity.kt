@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,14 +42,22 @@ fun CalculatorScreen(viewModel: MainViewModel = viewModel()) {
             .fillMaxSize()
             .statusBarsPadding()
             .navigationBarsPadding()
-            .padding(16.dp)
+            .padding(horizontal = 20.dp, vertical = 16.dp)
     ) {
-        // Top Expression & Result Display (35% screen height)
+        // App Title
+        Text(
+            text = "QuickCalc",
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+            fontWeight = FontWeight.Medium
+        )
+
+        // Display Screen Area (Top 36%)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .padding(bottom = 16.dp),
+                .padding(bottom = 12.dp),
             contentAlignment = Alignment.BottomEnd
         ) {
             Column(
@@ -57,7 +65,7 @@ fun CalculatorScreen(viewModel: MainViewModel = viewModel()) {
                 verticalArrangement = Arrangement.Bottom,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                // Expression Row (with horizontal scrolling for long formulas)
+                // Expression Row (with horizontal auto-scroll)
                 val scrollState = rememberScrollState()
                 Row(
                     modifier = Modifier
@@ -67,10 +75,10 @@ fun CalculatorScreen(viewModel: MainViewModel = viewModel()) {
                 ) {
                     Text(
                         text = if (viewModel.expression.isEmpty()) "0" else viewModel.expression,
-                        fontSize = 38.sp,
-                        fontWeight = FontWeight.Normal,
+                        fontSize = 40.sp,
+                        fontWeight = FontWeight.Light,
                         color = if (viewModel.expression.isEmpty()) {
-                            MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                            MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
                         } else {
                             MaterialTheme.colorScheme.onSurface
                         },
@@ -79,7 +87,7 @@ fun CalculatorScreen(viewModel: MainViewModel = viewModel()) {
                     )
                 }
 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
                 // Live Result Preview
                 Text(
@@ -89,7 +97,7 @@ fun CalculatorScreen(viewModel: MainViewModel = viewModel()) {
                         else -> ""
                     },
                     fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.SemiBold,
                     color = if (viewModel.isError) {
                         MaterialTheme.colorScheme.error
                     } else {
@@ -102,24 +110,24 @@ fun CalculatorScreen(viewModel: MainViewModel = viewModel()) {
         }
 
         Divider(
-            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f),
+            thickness = 0.5.dp,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        // 5x4 Calculator Keypad Grid (65% screen height)
+        // 5x4 Keypad Grid (Bottom 64%)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1.8f),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             // Row 1: AC, (), %, ÷
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 CalcButton(
                     text = "AC",
@@ -156,7 +164,7 @@ fun CalculatorScreen(viewModel: MainViewModel = viewModel()) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 CalcButton(text = "7", modifier = Modifier.weight(1f), onClick = { viewModel.onDigit("7") })
                 CalcButton(text = "8", modifier = Modifier.weight(1f), onClick = { viewModel.onDigit("8") })
@@ -175,7 +183,7 @@ fun CalculatorScreen(viewModel: MainViewModel = viewModel()) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 CalcButton(text = "4", modifier = Modifier.weight(1f), onClick = { viewModel.onDigit("4") })
                 CalcButton(text = "5", modifier = Modifier.weight(1f), onClick = { viewModel.onDigit("5") })
@@ -194,7 +202,7 @@ fun CalculatorScreen(viewModel: MainViewModel = viewModel()) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 CalcButton(text = "1", modifier = Modifier.weight(1f), onClick = { viewModel.onDigit("1") })
                 CalcButton(text = "2", modifier = Modifier.weight(1f), onClick = { viewModel.onDigit("2") })
@@ -213,7 +221,7 @@ fun CalculatorScreen(viewModel: MainViewModel = viewModel()) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 CalcButton(text = "0", modifier = Modifier.weight(1f), onClick = { viewModel.onDigit("0") })
                 CalcButton(text = ".", modifier = Modifier.weight(1f), onClick = { viewModel.onDecimal() })
@@ -240,23 +248,27 @@ fun CalculatorScreen(viewModel: MainViewModel = viewModel()) {
 fun CalcButton(
     text: String,
     modifier: Modifier = Modifier,
-    containerColor: Color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f),
+    containerColor: Color = MaterialTheme.colorScheme.surface,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
     onClick: () -> Unit
 ) {
     Button(
         onClick = onClick,
         modifier = modifier.fillMaxHeight(),
-        shape = CircleShape,
+        shape = RoundedCornerShape(24.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,
             contentColor = contentColor
+        ),
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 0.dp,
+            pressedElevation = 2.dp
         ),
         contentPadding = PaddingValues(0.dp)
     ) {
         Text(
             text = text,
-            fontSize = 24.sp,
+            fontSize = if (text.length > 2) 20.sp else 24.sp,
             fontWeight = FontWeight.Medium
         )
     }
