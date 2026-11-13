@@ -26,22 +26,21 @@
 
 ## 🌟 Overview
 
-**QuickCalc** is a streamlined Android arithmetic utility that demonstrates best practices in modern Android development. Built with pure declarative UI via **Jetpack Compose** and Google's **Material Design 3**, it decouples UI logic from computation through a reactive **ViewModel** architecture, providing instant calculations, robust error handling, and zero-crash arithmetic boundaries.
+**QuickCalc** is a modern, full-featured Android calculator application engineered with **Kotlin**, **Jetpack Compose**, and **Material Design 3**. It features an interactive **5×4 tactile keypad grid**, real-time expression evaluation with live result preview, mathematical order of operations (BODMAS/PEMDAS), parentheses support, and a zero-crash recursive descent parsing engine.
 
 ---
 
 ## 🚀 Key Features
 
-* **⚡ Pure Jetpack Compose UI:** 100% declarative UI built without XML layouts or legacy fragments.
-* **🎨 Material Design 3 (M3):** Modern elevated card containers, dynamic color palettes, rounded action buttons, and responsive typography.
-* **📐 Reactive MVVM Architecture:** Unidirectional data flow (UDF) powered by `MainViewModel` and Compose runtime state delegates (`mutableStateOf`).
-* **🛡️ Zero-Crash Error Protection:**
-  * Arithmetic exception boundary guarding against zero-division (`÷ 0`).
-  * Real-time number validation checking for invalid numerical formats and empty inputs.
-* **🔢 Smart Decimal Formatting:** Intelligently truncates unnecessary floating-point zeroes (e.g., displaying `25` instead of `25.0`) while preserving exact precision for fractional results (e.g., `3.14159`).
-* **📱 Decimal Soft-Keyboard Support:** Native `KeyboardType.Decimal` keyboard binding for rapid decimal numbers and touch-friendly operand entry.
-* **🧹 One-Click Clear Action:** Instant "Clear All" state reset returning inputs and calculation message back to initial state.
-* **🧪 100% Test-Covered ViewModel:** Comprehensive unit test suite with JUnit 4 covering arithmetic rules, boundaries, and resets.
+* **⚡ Pure Jetpack Compose UI:** 100% declarative UI built without legacy XML layouts or fragments.
+* **⌨️ Full 5×4 Tactile Keypad:** Responsive, circular Material 3 buttons with distinct color coding for digits, operators, clear (`AC`), delete (`⌫`), and equals (`=`).
+* **🔮 Real-Time Live Preview:** Evaluates calculations as you type — showing live answers instantly before pressing `=`.
+* **🧠 True Order of Operations:** Evaluates standard mathematical expressions with correct operator precedence (`×` and `÷` before `+` and `−`).
+* **📦 Parentheses Support `( )`:** Group sub-expressions with automatic open/close matching for complex formulas.
+* **💯 Percentage Calculations `%`:** Quick percentage operations with a single tap.
+* **🛡️ Zero-Crash Error Protection:** Guarded division-by-zero protection (`Cannot divide by zero`) without application crashes.
+* **🔢 Smart Decimal Formatting:** Prevents duplicate decimal dots and formats whole numbers cleanly without trailing `.0`.
+* **🧪 100% Tested Parsing Engine:** Dedicated JUnit 4 test suite verifying arithmetic rules, operator precedence, and edge cases.
 
 ---
 
@@ -95,8 +94,9 @@ QuickCalc/
 │   │   ├── main/
 │   │   │   ├── AndroidManifest.xml          # Application manifest & entry point
 │   │   │   └── java/com/example/quickcalc/
-│   │   │       ├── MainActivity.kt          # UI layer: ComponentActivity & CalculatorScreen
-│   │   │       ├── MainViewModel.kt         # Logic layer: State management & calculation lambdas
+│   │   │       ├── MainActivity.kt          # UI layer: ComponentActivity & CalculatorScreen (5x4 Keypad)
+│   │   │       ├── MainViewModel.kt         # Logic layer: State management & user event handling
+│   │   │       ├── ExpressionEvaluator.kt   # Math engine: Recursive descent parser & precedence
 │   │   │       └── ui/theme/
 │   │   │           ├── Color.kt             # Material 3 custom color definitions
 │   │   │           └── Theme.kt             # Application theme wrapper & color schemes
@@ -159,12 +159,11 @@ QuickCalc/
   app/build/outputs/apk/release/app-release.apk
   ```
 
-### Option 3: Download Pre-built Release APK from GitHub Actions
+### Option 3: Download Pre-built Release APK
 
-Every push to `main` automatically runs our CI pipeline and compiles a signed Release APK artifact.
-1. Navigate to the [Actions tab](https://github.com/ritikthakur22/QuickCalc/actions).
-2. Click on the latest workflow run.
-3. Scroll down to **Artifacts** and download `QuickCalc-release-apk`.
+You can download the pre-compiled, signed Release APK directly:
+* ⬇️ **[Download QuickCalc v1.2 Release APK](https://github.com/ritikthakur22/QuickCalc/releases)**
+* Or download from the latest run in the **[GitHub Actions tab](https://github.com/ritikthakur22/QuickCalc/actions)** under Artifacts (`QuickCalc-v1.2-release-apk`).
 
 ---
 

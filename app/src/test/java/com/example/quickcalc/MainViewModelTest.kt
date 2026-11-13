@@ -1,6 +1,7 @@
 package com.example.quickcalc
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -14,76 +15,105 @@ class MainViewModelTest {
     }
 
     @Test
-    fun testBasicArithmeticOperations() {
-        // Addition
-        viewModel.updateNumber1("12")
-        viewModel.updateNumber2("8")
-        viewModel.add()
-        assertEquals("Result: 20", viewModel.resultMessage)
+    fun testDigitInputAndLivePreview() {
+        viewModel.onDigit("1")
+        viewModel.onDigit("2")
+        viewModel.onDigit("5")
 
-        // Subtraction
-        viewModel.updateNumber1("25")
-        viewModel.updateNumber2("10")
-        viewModel.subtract()
-        assertEquals("Result: 15", viewModel.resultMessage)
-
-        // Multiplication
-        viewModel.updateNumber1("6")
-        viewModel.updateNumber2("7")
-        viewModel.multiply()
-        assertEquals("Result: 42", viewModel.resultMessage)
-
-        // Division
-        viewModel.updateNumber1("100")
-        viewModel.updateNumber2("4")
-        viewModel.divide()
-        assertEquals("Result: 25", viewModel.resultMessage)
+        assertEquals("125", viewModel.expression)
+        assertEquals("125", viewModel.resultPreview)
     }
 
     @Test
-    fun testDecimalHandling() {
-        viewModel.updateNumber1("3.5")
-        viewModel.updateNumber2("2.25")
-        viewModel.add()
-        assertEquals("Result: 5.75", viewModel.resultMessage)
+    fun testOrderOfOperations_multiplicationBeforeAddition() {
+        // 2 + 3 × 4 = 14 (not 20)
+        viewModel.onDigit("2")
+        viewModel.onOperator("+")
+        viewModel.onDigit("3")
+        viewModel.onOperator("×")
+        viewModel.onDigit("4")
 
-        viewModel.updateNumber1("5")
-        viewModel.updateNumber2("2")
-        viewModel.divide()
-        assertEquals("Result: 2.5", viewModel.resultMessage)
+        assertEquals("2+3×4", viewModel.expression)
+        assertEquals("14", viewModel.resultPreview)
+
+        viewModel.onEquals()
+        assertEquals("14", viewModel.expression)
+        assertEquals("", viewModel.resultPreview)
     }
 
     @Test
-    fun testDivisionByZero() {
-        viewModel.updateNumber1("10")
-        viewModel.updateNumber2("0")
-        viewModel.divide()
-        assertEquals("Error: Division by zero", viewModel.resultMessage)
+    fun testDecimalInput_preventsDuplicateDots() {
+        viewModel.onDecimal() // starts with 0.
+        viewModel.onDigit("5")
+        viewModel.onDecimal() // second dot should be ignored
+
+        assertEquals("0.5", viewModel.expression)
+        assertEquals("0.5", viewModel.resultPreview)
     }
 
     @Test
-    fun testInputValidation() {
-        viewModel.updateNumber1("abc")
-        viewModel.updateNumber2("5")
-        viewModel.add()
-        assertEquals("Error: Please enter valid numbers.", viewModel.resultMessage)
+    fun testDivisionByZero_showsErrorMessage() {
+        viewModel.onDigit("1")
+        viewModel.onDigit("0")
+        viewModel.onOperator("÷")
+        viewModel.onDigit("0")
 
-        viewModel.updateNumber1("10")
-        viewModel.updateNumber2("")
-        viewModel.multiply()
-        assertEquals("Error: Please enter valid numbers.", viewModel.resultMessage)
+        assertEquals("10÷0", viewModel.expression)
+        assertEquals("Cannot divide by zero", viewModel.resultPreview)
+        assertTrue(viewModel.isError)
     }
 
     @Test
-    fun testClearAllAndReset() {
-        viewModel.updateNumber1("50")
-        viewModel.updateNumber2("20")
-        viewModel.add()
-        assertEquals("Result: 70", viewModel.resultMessage)
+    fun testParenthesesEvaluation() {
+        // (2 + 3) × 4 = 20
+        viewModel.onParentheses() // opens (
+        viewModel.onDigit("2")
+        viewModel.onOperator("+")
+        viewModel.onDigit("3")
+        viewModel.onParentheses() // closes )
+        viewModel.onOperator("×")
+        viewModel.onDigit("4")
+
+        assertEquals("(2+3)×4", viewModel.expression)
+        assertEquals("20", viewModel.resultPreview)
+
+        viewModel.onEquals()
+        assertEquals("20", viewModel.expression)
+    }
+
+    @Test
+    fun testOperatorReplacement() {
+        viewModel.onDigit("5")
+        viewModel.onOperator("+")
+        assertEquals("5+", viewModel.expression)
+
+        // User changes mind and taps ×
+        viewModel.onOperator("×")
+        assertEquals("5×", viewModel.expression)
+    }
+
+    @Test
+    fun testDeleteAndClear() {
+        viewModel.onDigit("1")
+        viewModel.onDigit("2")
+        viewModel.onDigit("3")
+        assertEquals("123", viewModel.expression)
+
+        viewModel.onDelete()
+        assertEquals("12", viewModel.expression)
 
         viewModel.clearAll()
-        assertEquals("", viewModel.number1)
-        assertEquals("", viewModel.number2)
-        assertEquals("", viewModel.resultMessage)
+        assertEquals("", viewModel.expression)
+        assertEquals("", viewModel.resultPreview)
+    }
+
+    @Test
+    fun testPercentage() {
+        viewModel.onDigit("2")
+        viewModel.onDigit("5")
+        viewModel.onDigit("0")
+        viewModel.onPercentage()
+
+        assertEquals("2.5", viewModel.expression)
     }
 }

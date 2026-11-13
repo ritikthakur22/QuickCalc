@@ -7,75 +7,155 @@ import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel() {
 
-    var number1 by mutableStateOf("")
+    var expression by mutableStateOf("")
         private set
 
-    var number2 by mutableStateOf("")
+    var resultPreview by mutableStateOf("")
         private set
 
-    var resultMessage by mutableStateOf("")
+    var isError by mutableStateOf(false)
         private set
 
-    fun updateNumber1(value: String) {
-        number1 = value
-        clearResult()
+    fun onDigit(digit: String) {
+        if (isError) clearAll()
+
+        expression += digit
+        updateLivePreview()
     }
 
-    fun updateNumber2(value: String) {
-        number2 = value
-        clearResult()
+    fun onDecimal() {
+        if (isError) clearAll()
+
+        if (expression.isEmpty() || isLastCharOperator()) {
+            expression += "0."
+        } else {
+            // Find current number segment
+            val currentNumber = expression.takeLastWhile { it.isDigit() || it == '.' }
+            if (!currentNumber.contains('.')) {
+                expression += "."
+            }
+        }
+        updateLivePreview()
     }
 
-    private fun clearResult() {
-        resultMessage = ""
+    fun onOperator(op: String) {
+        if (isError) isError = false
+
+        if (expression.isEmpty()) {
+            if (op == "−") {
+                expression = "−"
+            }
+            return
+        }
+
+        if (isLastCharOperator()) {
+            // Replace the last operator with the new one
+            expression = expression.dropLast(1) + op
+        } else {
+            expression += op
+        }
+        updateLivePreview()
+    }
+
+    fun onPercentage() {
+        if (expression.isEmpty() || isLastCharOperator()) return
+
+        try {
+            val evaluated = ExpressionEvaluator.evaluate(expression)
+            val percentResult = evaluated / 100.0
+            expression = formatNumber(percentResult)
+            resultPreview = ""
+        } catch (e: Exception) {
+            resultPreview = "Error"
+            isError = true
+        }
+    }
+
+    fun onParentheses() {
+        if (isError) clearAll()
+
+        val openCount = expression.count { it == '(' }
+        val closeCount = expression.count { it == ')' }
+
+        val lastChar = expression.lastOrNull()
+        if (openCount > closeCount && lastChar != null && (lastChar.isDigit() || lastChar == ')')) {
+            expression += ")"
+        } else {
+            if (lastChar != null && (lastChar.isDigit() || lastChar == ')')) {
+                expression += "×("
+            } else {
+                expression += "("
+            }
+        }
+        updateLivePreview()
+    }
+
+    fun onDelete() {
+        if (isError) {
+            clearAll()
+            return
+        }
+
+        if (expression.isNotEmpty()) {
+            expression = expression.dropLast(1)
+            updateLivePreview()
+        }
     }
 
     fun clearAll() {
-        number1 = ""
-        number2 = ""
-        resultMessage = ""
+        expression = ""
+        resultPreview = ""
+        isError = false
     }
 
-    fun add() = calculate { a, b -> a + b }
+    fun onEquals() {
+        if (expression.isEmpty()) return
 
-    fun subtract() = calculate { a, b -> a - b }
+        try {
+            val result = ExpressionEvaluator.evaluate(expression)
+            val formatted = formatNumber(result)
+            expression = formatted
+            resultPreview = ""
+            isError = false
+        } catch (e: ArithmeticException) {
+            resultPreview = "Cannot divide by zero"
+            isError = true
+        } catch (e: Exception) {
+            resultPreview = "Error"
+            isError = true
+        }
+    }
 
-    fun multiply() = calculate { a, b -> a * b }
-
-    fun divide() {
-        val num1 = number1.toDoubleOrNull()
-        val num2 = number2.toDoubleOrNull()
-
-        if (num1 == null || num2 == null) {
-            resultMessage = "Error: Please enter valid numbers."
+    private fun updateLivePreview() {
+        if (expression.isEmpty() || isLastCharOperator()) {
+            resultPreview = ""
             return
         }
 
-        if (num2 == 0.0) {
-            resultMessage = "Error: Division by zero"
-            return
+        try {
+            val result = ExpressionEvaluator.evaluate(expression)
+            resultPreview = formatNumber(result)
+            isError = false
+        } catch (e: ArithmeticException) {
+            resultPreview = "Cannot divide by zero"
+            isError = true
+        } catch (e: Exception) {
+            resultPreview = ""
         }
-
-        setResult(num1 / num2)
     }
 
-    private fun calculate(operation: (Double, Double) -> Double) {
-        val num1 = number1.toDoubleOrNull()
-        val num2 = number2.toDoubleOrNull()
-
-        if (num1 == null || num2 == null) {
-            resultMessage = "Error: Please enter valid numbers."
-            return
-        }
-
-        setResult(operation(num1, num2))
+    private fun isLastCharOperator(): Boolean {
+        val last = expression.lastOrNull() ?: return false
+        return last == '+' || last == '−' || last == '×' || last == '÷'
     }
 
-    private fun setResult(value: Double) {
-        resultMessage = if (value % 1.0 == 0.0) {
-            "Result: ${value.toLong()}"
+    private fun formatNumber(value: Double): String {
+        return if (value % 1.0 == 0.0) {
+            value.toLong().toString()
         } else {
-            "Result: $value"
+            // Trim precision to at most 8 decimal places without trailing zeroes
+            val formatted = String.format(java.util.Locale.US, "%.8f", value)
+            formatted.trimEnd('0').trimEnd('.')
         }
     }
 }
