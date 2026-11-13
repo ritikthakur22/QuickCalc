@@ -52,7 +52,8 @@ fun CalculatorScreen(viewModel: MainViewModel = viewModel()) {
             value = viewModel.number1,
             onValueChange = { viewModel.updateNumber1(it) },
             label = { Text("First Number") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -62,31 +63,41 @@ fun CalculatorScreen(viewModel: MainViewModel = viewModel()) {
             value = viewModel.number2,
             onValueChange = { viewModel.updateNumber2(it) },
             label = { Text("Second Number") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Button(onClick = { viewModel.add() }, modifier = Modifier.weight(1f).padding(4.dp)) {
-                Text("+")
+            Button(onClick = { viewModel.add() }, modifier = Modifier.weight(1f)) {
+                Text("+", style = MaterialTheme.typography.titleMedium)
             }
-            Button(onClick = { viewModel.subtract() }, modifier = Modifier.weight(1f).padding(4.dp)) {
-                Text("-")
+            Button(onClick = { viewModel.subtract() }, modifier = Modifier.weight(1f)) {
+                Text("-", style = MaterialTheme.typography.titleMedium)
             }
-            Button(onClick = { viewModel.multiply() }, modifier = Modifier.weight(1f).padding(4.dp)) {
-                Text("×")
+            Button(onClick = { viewModel.multiply() }, modifier = Modifier.weight(1f)) {
+                Text("×", style = MaterialTheme.typography.titleMedium)
             }
-            Button(onClick = { viewModel.divide() }, modifier = Modifier.weight(1f).padding(4.dp)) {
-                Text("÷")
+            Button(onClick = { viewModel.divide() }, modifier = Modifier.weight(1f)) {
+                Text("÷", style = MaterialTheme.typography.titleMedium)
             }
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = { viewModel.clearAll() },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Clear All")
+        }
+
+        Spacer(modifier = Modifier.height(28.dp))
 
         if (viewModel.resultMessage.isNotEmpty()) {
             val isError = viewModel.resultMessage.startsWith("Error:")

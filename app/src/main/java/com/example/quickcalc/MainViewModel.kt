@@ -30,6 +30,12 @@ class MainViewModel : ViewModel() {
         resultMessage = ""
     }
 
+    fun clearAll() {
+        number1 = ""
+        number2 = ""
+        resultMessage = ""
+    }
+
     fun add() {
         calculate { a, b -> a + b }
     }

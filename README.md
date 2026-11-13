@@ -6,6 +6,7 @@
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.9.0-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Jetpack Compose](https://img.shields.io/badge/Jetpack_Compose-Material_3-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white)
 ![Architecture](https://img.shields.io/badge/Architecture-MVVM-FF6F00?style=for-the-badge)
+[![Android CI](https://github.com/ritikthakur22/QuickCalc/actions/workflows/android.yml/badge.svg)](https://github.com/ritikthakur22/QuickCalc/actions/workflows/android.yml)
 ![License](https://img.shields.io/badge/License-All_Rights_Reserved-red?style=for-the-badge)
 
 <p align="center">
@@ -38,7 +39,9 @@
   * Arithmetic exception boundary guarding against zero-division (`÷ 0`).
   * Real-time number validation checking for invalid numerical formats and empty inputs.
 * **🔢 Smart Decimal Formatting:** Intelligently truncates unnecessary floating-point zeroes (e.g., displaying `25` instead of `25.0`) while preserving exact precision for fractional results (e.g., `3.14159`).
-* **📱 Adaptive Keyboard Handling:** Numeric soft-input keyboard binding for rapid, touch-friendly operand entry.
+* **📱 Decimal Soft-Keyboard Support:** Native `KeyboardType.Decimal` keyboard binding for rapid decimal numbers and touch-friendly operand entry.
+* **🧹 One-Click Clear Action:** Instant "Clear All" state reset returning inputs and calculation message back to initial state.
+* **🧪 100% Test-Covered ViewModel:** Comprehensive unit test suite with JUnit 4 covering arithmetic rules, boundaries, and resets.
 
 ---
 
@@ -84,21 +87,33 @@ QuickCalc adopts the recommended Android **MVVM (Model-View-ViewModel)** archite
 
 ```text
 QuickCalc/
+├── .github/
+│   └── workflows/
+│       └── android.yml                      # CI workflow: Unit testing & debug APK build
 ├── app/
 │   ├── src/
-│   │   └── main/
-│   │       ├── AndroidManifest.xml          # Application manifest & entry point
+│   │   ├── main/
+│   │   │   ├── AndroidManifest.xml          # Application manifest & entry point
+│   │   │   └── java/com/example/quickcalc/
+│   │   │       ├── MainActivity.kt          # UI layer: ComponentActivity & CalculatorScreen
+│   │   │       ├── MainViewModel.kt         # Logic layer: State management & calculation lambdas
+│   │   │       └── ui/theme/
+│   │   │           ├── Color.kt             # Material 3 custom color definitions
+│   │   │           └── Theme.kt             # Application theme wrapper & color schemes
+│   │   └── test/
 │   │       └── java/com/example/quickcalc/
-│   │           ├── MainActivity.kt          # UI layer: ComponentActivity & CalculatorScreen
-│   │           ├── MainViewModel.kt         # Logic layer: State management & calculation lambdas
-│   │           └── ui/theme/
-│   │               ├── Color.kt             # Material 3 custom color definitions
-│   │               └── Theme.kt             # Application theme wrapper & color schemes
+│   │           └── MainViewModelTest.kt     # JUnit 4 unit test suite
 │   ├── build.gradle.kts                     # App-level build config, SDK levels & dependencies
 │   └── proguard-rules.pro                   # Code shrinking and obfuscation rules
+├── gradle/
+│   └── wrapper/
+│       ├── gradle-wrapper.jar               # Gradle wrapper executable
+│       └── gradle-wrapper.properties        # Gradle version distribution configuration
 ├── .gitignore                               # Android Studio & Gradle ignore rules
 ├── build.gradle.kts                         # Root project build configuration
 ├── gradle.properties                        # Gradle JVM & build settings
+├── gradlew                                  # Unix/macOS Gradle wrapper script
+├── gradlew.bat                              # Windows Gradle wrapper batch script
 ├── LICENSE                                  # Proprietary copyright license
 ├── README.md                                # Project documentation
 └── settings.gradle.kts                      # Module management and repository sources
@@ -113,7 +128,7 @@ QuickCalc/
 * **Android SDK** API 34 installed
 * **Java Development Kit (JDK)** 17 (bundled with modern Android Studio)
 
-### Build with Android Studio (Recommended)
+### Option 1: Build with Android Studio (Recommended)
 
 1. **Clone the repository:**
    ```bash
@@ -127,10 +142,29 @@ QuickCalc/
    * Click the green **Run (`Shift + F10`)** button in Android Studio toolbar.
 4. **Generate Release / Debug APK:**
    * Go to **Build > Build Bundle(s) / APK(s) > Build APK(s)**.
-   * Locate the generated APK at:
-     ```text
-     app/build/outputs/apk/debug/app-debug.apk
-     ```
+   * Locate the generated APK at `app/build/outputs/apk/debug/app-debug.apk`.
+
+### Option 2: Build & Test via Command Line (Gradle Wrapper)
+
+* **Run all Unit Tests:**
+  ```bash
+  ./gradlew test
+  ```
+* **Assemble Debug APK:**
+  ```bash
+  ./gradlew assembleDebug
+  ```
+  The compiled APK will be at:
+  ```text
+  app/build/outputs/apk/debug/app-debug.apk
+  ```
+
+### Option 3: Download Pre-built APK from GitHub Actions
+
+Every push to `main` automatically runs our CI pipeline and compiles an APK artifact.
+1. Navigate to the [Actions tab](https://github.com/ritikthakur22/QuickCalc/actions).
+2. Click on the latest workflow run.
+3. Scroll down to **Artifacts** and download `QuickCalc-debug-apk`.
 
 ---
 
