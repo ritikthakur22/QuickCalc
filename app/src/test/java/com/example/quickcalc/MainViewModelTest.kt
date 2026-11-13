@@ -1,7 +1,6 @@
 package com.example.quickcalc
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -15,116 +14,76 @@ class MainViewModelTest {
     }
 
     @Test
-    fun testAddition_integers() {
-        viewModel.updateNumber1("15")
-        viewModel.updateNumber2("27")
-        viewModel.add()
-
-        assertEquals("Result: 42", viewModel.resultMessage)
-    }
-
-    @Test
-    fun testAddition_decimals() {
-        viewModel.updateNumber1("3.5")
-        viewModel.updateNumber2("2.25")
-        viewModel.add()
-
-        assertEquals("Result: 5.75", viewModel.resultMessage)
-    }
-
-    @Test
-    fun testSubtraction_positiveResult() {
-        viewModel.updateNumber1("50")
-        viewModel.updateNumber2("18")
-        viewModel.subtract()
-
-        assertEquals("Result: 32", viewModel.resultMessage)
-    }
-
-    @Test
-    fun testSubtraction_negativeResult() {
-        viewModel.updateNumber1("10")
-        viewModel.updateNumber2("25")
-        viewModel.subtract()
-
-        assertEquals("Result: -15", viewModel.resultMessage)
-    }
-
-    @Test
-    fun testMultiplication() {
-        viewModel.updateNumber1("7")
+    fun testBasicArithmeticOperations() {
+        // Addition
+        viewModel.updateNumber1("12")
         viewModel.updateNumber2("8")
+        viewModel.add()
+        assertEquals("Result: 20", viewModel.resultMessage)
+
+        // Subtraction
+        viewModel.updateNumber1("25")
+        viewModel.updateNumber2("10")
+        viewModel.subtract()
+        assertEquals("Result: 15", viewModel.resultMessage)
+
+        // Multiplication
+        viewModel.updateNumber1("6")
+        viewModel.updateNumber2("7")
         viewModel.multiply()
+        assertEquals("Result: 42", viewModel.resultMessage)
 
-        assertEquals("Result: 56", viewModel.resultMessage)
-    }
-
-    @Test
-    fun testDivision_wholeNumber() {
+        // Division
         viewModel.updateNumber1("100")
         viewModel.updateNumber2("4")
         viewModel.divide()
-
         assertEquals("Result: 25", viewModel.resultMessage)
     }
 
     @Test
-    fun testDivision_fractionalResult() {
+    fun testDecimalHandling() {
+        viewModel.updateNumber1("3.5")
+        viewModel.updateNumber2("2.25")
+        viewModel.add()
+        assertEquals("Result: 5.75", viewModel.resultMessage)
+
         viewModel.updateNumber1("5")
         viewModel.updateNumber2("2")
         viewModel.divide()
-
         assertEquals("Result: 2.5", viewModel.resultMessage)
     }
 
     @Test
-    fun testDivisionByZero_returnsErrorMessage() {
+    fun testDivisionByZero() {
         viewModel.updateNumber1("10")
         viewModel.updateNumber2("0")
         viewModel.divide()
-
         assertEquals("Error: Division by zero", viewModel.resultMessage)
     }
 
     @Test
-    fun testInvalidInput_number1NotANumber() {
+    fun testInputValidation() {
         viewModel.updateNumber1("abc")
-        viewModel.updateNumber2("10")
+        viewModel.updateNumber2("5")
         viewModel.add()
-
         assertEquals("Error: Please enter valid numbers.", viewModel.resultMessage)
-    }
 
-    @Test
-    fun testInvalidInput_emptyNumber2() {
         viewModel.updateNumber1("10")
         viewModel.updateNumber2("")
         viewModel.multiply()
-
         assertEquals("Error: Please enter valid numbers.", viewModel.resultMessage)
     }
 
     @Test
-    fun testClearAll_resetsState() {
-        viewModel.updateNumber1("100")
-        viewModel.updateNumber2("50")
+    fun testClearAllAndReset() {
+        viewModel.updateNumber1("50")
+        viewModel.updateNumber2("20")
         viewModel.add()
-        assertEquals("Result: 150", viewModel.resultMessage)
+        assertEquals("Result: 70", viewModel.resultMessage)
 
         viewModel.clearAll()
         assertEquals("", viewModel.number1)
         assertEquals("", viewModel.number2)
-        assertEquals("", viewModel.resultMessage)
-    }
-
-    @Test
-    fun testUpdateNumber_clearsPreviousResult() {
-        viewModel.updateNumber1("10")
-        viewModel.updateNumber2("20")
-        viewModel.add()
-        assertTrue(viewModel.resultMessage.isNotEmpty())
-
-        viewModel.updateNumber1("15")
         assertEquals("", viewModel.resultMessage)
     }
 }

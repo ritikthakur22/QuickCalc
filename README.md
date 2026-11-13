@@ -7,7 +7,7 @@
 ![Jetpack Compose](https://img.shields.io/badge/Jetpack_Compose-Material_3-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white)
 ![Architecture](https://img.shields.io/badge/Architecture-MVVM-FF6F00?style=for-the-badge)
 [![Android CI](https://github.com/ritikthakur22/QuickCalc/actions/workflows/android.yml/badge.svg)](https://github.com/ritikthakur22/QuickCalc/actions/workflows/android.yml)
-![License](https://img.shields.io/badge/License-All_Rights_Reserved-red?style=for-the-badge)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
 <p align="center">
   A modern, high-performance Android calculator application built from the ground up using <b>Kotlin</b>, <b>Jetpack Compose</b>, and <b>MVVM Architecture</b>.
@@ -17,7 +17,7 @@
 [Architecture](#-architecture--tech-stack) •
 [Project Structure](#-project-structure) •
 [Getting Started](#-getting-started--build-guide) •
-[License Policy](#-license--proprietary-notice) •
+[License](#-license) •
 [Author](#-author--contact)
 
 </div>
@@ -168,16 +168,9 @@ Every push to `main` automatically runs our CI pipeline and compiles a signed Re
 
 ---
 
-## 🔒 License & Proprietary Notice
+## 📄 License
 
-> **All Rights Reserved**  
-> Copyright &copy; 2026 Ritik Thakur.
-
-This repository, its source code, UI architectures, and design assets are the **confidential and proprietary property of Ritik Thakur**.
-
-* **No License Granted:** No permission, authorization, or license (open-source or otherwise) is granted to copy, replicate, modify, distribute, publish, or use this source code without express prior written consent.
-* **Educational / Demonstration Access:** If this repository is configured as publicly accessible on GitHub, it is presented strictly for code inspection and portfolio evaluation by prospective employers and recruiters. Forking, commercializing, or redistributing this application without authorization is prohibited.
-* For the full legal text, review the [LICENSE](LICENSE) file.
+This project is open-source and distributed under the **[MIT License](LICENSE)**. Anyone is free to use, modify, adapt, and distribute this software with proper credit and attribution to the original author.
 
 ---
 

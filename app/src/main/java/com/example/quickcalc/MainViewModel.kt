@@ -36,23 +36,27 @@ class MainViewModel : ViewModel() {
         resultMessage = ""
     }
 
-    fun add() {
-        calculate { a, b -> a + b }
-    }
+    fun add() = calculate { a, b -> a + b }
 
-    fun subtract() {
-        calculate { a, b -> a - b }
-    }
+    fun subtract() = calculate { a, b -> a - b }
 
-    fun multiply() {
-        calculate { a, b -> a * b }
-    }
+    fun multiply() = calculate { a, b -> a * b }
 
     fun divide() {
-        calculate { a, b ->
-            if (b == 0.0) throw ArithmeticException("Division by zero")
-            a / b
+        val num1 = number1.toDoubleOrNull()
+        val num2 = number2.toDoubleOrNull()
+
+        if (num1 == null || num2 == null) {
+            resultMessage = "Error: Please enter valid numbers."
+            return
         }
+
+        if (num2 == 0.0) {
+            resultMessage = "Error: Division by zero"
+            return
+        }
+
+        setResult(num1 / num2)
     }
 
     private fun calculate(operation: (Double, Double) -> Double) {
@@ -64,17 +68,14 @@ class MainViewModel : ViewModel() {
             return
         }
 
-        try {
-            val result = operation(num1, num2)
-            resultMessage = if (result % 1.0 == 0.0) {
-                "Result: ${result.toLong()}"
-            } else {
-                "Result: $result"
-            }
-        } catch (e: ArithmeticException) {
-            resultMessage = "Error: ${e.message}"
-        } catch (e: Exception) {
-            resultMessage = "Error: Invalid operation."
+        setResult(operation(num1, num2))
+    }
+
+    private fun setResult(value: Double) {
+        resultMessage = if (value % 1.0 == 0.0) {
+            "Result: ${value.toLong()}"
+        } else {
+            "Result: $value"
         }
     }
 }

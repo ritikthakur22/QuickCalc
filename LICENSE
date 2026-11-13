@@ -1,23 +1,21 @@
-Copyright (c) 2026 Ritik Thakur. All Rights Reserved.
+MIT License
 
-PROPRIETARY & CONFIDENTIAL
+Copyright (c) 2026 Ritik Thakur
 
-This source code, user interface designs, and associated documentation files (collectively, the "Software") are the exclusive proprietary property of Ritik Thakur.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-TERMS AND CONDITIONS:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-1. No License Granted:
-   No license, right, or permission is granted to any person or entity to copy, clone, distribute, modify, create derivative works of, sublicense, reverse-engineer, or commercially exploit this Software, in whole or in part, without the prior written consent of the copyright owner.
-
-2. Prohibition of Unauthorized Duplication:
-   Unauthorized copying, downloading, scraping, republishing, distribution, or public display of this codebase or any portion thereof is strictly prohibited and constitutes an infringement of intellectual property rights under applicable copyright laws and international treaties.
-
-3. Limited Demonstration Scope:
-   If this repository is made publicly viewable, access is granted solely for personal portfolio evaluation and code review by prospective employers, recruiters, or educators. Public visibility does not convey, grant, or imply any right to execute, deploy, fork for modification, or reuse any part of the source code or design.
-
-For licensing permissions, collaborations, or inquiries, please contact:
-- Developer: Ritik Thakur
-- Email: contact@ritikthakur.com.np
-- Portfolio: https://www.ritikthakur.com.np/
-- GitHub: https://github.com/ritikthakur22
-- LinkedIn: https://www.linkedin.com/in/ritikthakur22/
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
