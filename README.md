@@ -22,6 +22,12 @@
 
 </div>
 
+<p align="center">
+  <img src="screenshots/dark_mode.png" width="270" alt="QuickCalc Dark Theme" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="screenshots/light_mode.png" width="270" alt="QuickCalc Light Theme" />
+</p>
+
 ---
 
 ## 🌟 Overview
@@ -109,6 +115,9 @@ QuickCalc/
 │   └── wrapper/
 │       ├── gradle-wrapper.jar               # Gradle wrapper executable
 │       └── gradle-wrapper.properties        # Gradle version distribution configuration
+├── screenshots/
+│   ├── dark_mode.png                        # Dark theme UI preview
+│   └── light_mode.png                       # Light theme UI preview
 ├── .gitignore                               # Android Studio & Gradle ignore rules
 ├── build.gradle.kts                         # Root project build configuration
 ├── gradle.properties                        # Gradle JVM & build settings
