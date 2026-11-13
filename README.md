@@ -22,7 +22,7 @@
 
 </div>
 <p align="center">
-  <img src="screenshots/dev.png" width="500" alt="QuickCalc Development" />
+  <img src="screenshots/dev.png" width="700" alt="QuickCalc Development" />
 </p>
 
 
