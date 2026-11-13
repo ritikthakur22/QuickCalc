@@ -21,6 +21,10 @@
 [Author](#-author--contact)
 
 </div>
+<p align="center">
+  <img src="screenshots/dev.png" width="170" alt="QuickCalc Development" />
+</p>
+
 
 <p align="center">
   <img src="screenshots/dark_mode.png" width="270" alt="QuickCalc Dark Theme" />
