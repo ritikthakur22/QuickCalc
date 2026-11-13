@@ -89,7 +89,7 @@ QuickCalc adopts the recommended Android **MVVM (Model-View-ViewModel)** archite
 QuickCalc/
 ├── .github/
 │   └── workflows/
-│       └── android.yml                      # CI workflow: Unit testing & debug APK build
+│       └── android.yml                      # CI workflow: Unit testing & release APK build
 ├── app/
 │   ├── src/
 │   │   ├── main/
@@ -140,9 +140,9 @@ QuickCalc/
 3. **Run on Device or Emulator:**
    * Connect an Android device (with USB Debugging enabled) or start an Android Emulator.
    * Click the green **Run (`Shift + F10`)** button in Android Studio toolbar.
-4. **Generate Release / Debug APK:**
+4. **Generate Release APK:**
    * Go to **Build > Build Bundle(s) / APK(s) > Build APK(s)**.
-   * Locate the generated APK at `app/build/outputs/apk/debug/app-debug.apk`.
+   * Locate the generated APK at `app/build/outputs/apk/release/app-release.apk`.
 
 ### Option 2: Build & Test via Command Line (Gradle Wrapper)
 
@@ -150,21 +150,21 @@ QuickCalc/
   ```bash
   ./gradlew test
   ```
-* **Assemble Debug APK:**
+* **Assemble Release APK:**
   ```bash
-  ./gradlew assembleDebug
+  ./gradlew assembleRelease
   ```
   The compiled APK will be at:
   ```text
-  app/build/outputs/apk/debug/app-debug.apk
+  app/build/outputs/apk/release/app-release.apk
   ```
 
-### Option 3: Download Pre-built APK from GitHub Actions
+### Option 3: Download Pre-built Release APK from GitHub Actions
 
-Every push to `main` automatically runs our CI pipeline and compiles an APK artifact.
+Every push to `main` automatically runs our CI pipeline and compiles a signed Release APK artifact.
 1. Navigate to the [Actions tab](https://github.com/ritikthakur22/QuickCalc/actions).
 2. Click on the latest workflow run.
-3. Scroll down to **Artifacts** and download `QuickCalc-debug-apk`.
+3. Scroll down to **Artifacts** and download `QuickCalc-release-apk`.
 
 ---
 
